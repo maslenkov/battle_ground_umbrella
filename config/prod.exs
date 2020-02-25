@@ -10,9 +10,11 @@ use Mix.Config
 # which you should run after static files are built and
 # before starting your production server.
 config :battle_ground_web, BattleGroundWeb.Endpoint,
+  load_from_system_env: true,
   http: [port: {:system, "PORT"}],
   url: [scheme: "https", host: "elixir-cc-hero-v1.herokuapp.com", port: 443],
-  force_ssl: [rewrite_on: [:x_forwarded_proto]]
+  force_ssl: [rewrite_on: [:x_forwarded_proto]],
+  secret_key_base: System.get_env("SECRET_KEY_BASE")
 #  cache_static_manifest: "priv/static/cache_manifest.json"
 
 # ## SSL Support
