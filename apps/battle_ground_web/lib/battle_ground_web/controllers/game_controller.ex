@@ -5,11 +5,11 @@ defmodule BattleGroundWeb.GameController do
     name = get_session(conn, :name)
     conn = if name do
       case Registry.lookup(BattleGround.Dude.Registry, name) do
-        [{dude_pid, nil}] -> conn
+        [{_dude_pid, nil}] -> conn
         [] -> BattleGround.Dude.Client.create(name); conn
       end
     else
-      name = params[:name] || random_name
+      name = params[:name] || random_name()
       BattleGround.Dude.Client.create(name)
       put_session(conn, :name, name)
     end

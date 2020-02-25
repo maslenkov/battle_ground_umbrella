@@ -5,7 +5,16 @@ defmodule BattleGround.Umbrella.MixProject do
     [
       apps_path: "apps",
       start_permanent: Mix.env() == :prod,
-      deps: deps()
+      deps: deps(),
+      version: "0.0.1",
+      releases: [
+        battle_ground: [
+          applications: [
+            battle_ground: :permanent,
+            battle_ground_web: :permanent
+          ]
+        ],
+      ]
     ]
   end
 
