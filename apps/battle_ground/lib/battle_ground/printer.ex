@@ -4,21 +4,21 @@ defmodule BattleGround.Board.Printer do
   @max_y 11
   @min_y 0
 
-  def print do
+  def print(separator \\ "\n") do
     # from {11, 0} to {0, 11} (from right to left, from down to top)
-    print_line(@max_x, @min_y, ["\n"])
+    print_line(@max_x, @min_y, [separator], separator)
   end
 
-  defp print_line(x, y, memo) when x >= @min_x do
-    print_line(x - 1, y, [print_tile(x, y)|memo])
+  defp print_line(x, y, memo, separator) when x >= @min_x do
+    print_line(x - 1, y, [print_tile(x, y)|memo], separator)
   end
 
-  defp print_line(x, y, memo) when x <= @min_x and y == @max_y do
-    ["\n"|memo]
+  defp print_line(x, y, memo, separator) when x <= @min_x and y == @max_y do
+    [separator|memo]
   end
 
-  defp print_line(x, y, memo) when x <= @min_x do
-    print_line(@max_x, y + 1, ["\n"|memo])
+  defp print_line(x, y, memo, separator) when x <= @min_x do
+    print_line(@max_x, y + 1, [separator|memo], separator)
   end
 
   defp print_tile(x, y) do
