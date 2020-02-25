@@ -1,0 +1,34 @@
+Start game!
+use arrows to move your hero and space to attack enemy
+<table>
+    <tr><td>
+        <pre>
+            <%= raw @board %>
+        </pre>
+    </td></tr>
+</table>
+<script>
+    // setTimeout(function() {window.location.reload()}, 1000)
+    document.addEventListener('keydown', function(event) {
+      if(["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Space"].includes(event.code)) {
+          var url = "/game/key";
+          var params = "key=" + event.code;
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", url, true);
+
+          //Send the proper header information along with the request
+          xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          // xhr.setRequestHeader("x-csrf-token", "application/x-www-form-urlencoded");
+
+          xhr.send(params);
+      }
+      // console.log(event.code) //"ArrowUp"
+      // console.log(event.code) //"ArrowDown"
+      // console.log(event.code) //"ArrowLeft"
+      // console.log(event.code) //"ArrowRight"
+      // console.log(event.code) //"Space"
+      // if (event.code == 'KeyZ' && (event.ctrlKey || event.metaKey)) {
+      //   alert('Отменить!')
+      // }
+    });
+</script>
