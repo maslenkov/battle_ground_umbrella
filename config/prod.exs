@@ -12,7 +12,7 @@ import Config
 config :battle_ground_web, BattleGroundWeb.Endpoint,
   load_from_system_env: true,
   server: true,
-  http: [port: System.get_env("PORT")}],
+  http: [port: System.get_env("PORT")],
 #  url: [scheme: "http", host: "localhost", port: 4000],
   url: [scheme: "https", host: "localhost", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
