@@ -14,11 +14,11 @@ RUN mix local.hex --force && \
 # set build ENV
 ENV MIX_ENV=prod
 ARG SECRET_KEY_BASE
-ARG PORT
-ARG HOST
+#ARG PORT
+#ARG HOST
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
-ENV PORT=$PORT
-ENV HOST=$HOST
+ENV PORT=4000
+ENV HOST=localhost
 
 # install mix dependencies
 COPY mix.exs mix.lock ./
@@ -51,11 +51,11 @@ RUN apk add --update bash openssl
 RUN mkdir /app
 WORKDIR /app
 
-EXPOSE $PORT
+EXPOSE 4000
 ENV MIX_ENV=prod
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
-ENV PORT=$PORT
-ENV HOST=$HOST
+ENV PORT=4000
+ENV HOST=localhost
 
 COPY --from=build /app/_build/prod/rel/battle_ground ./
 RUN chown -R nobody: /app
