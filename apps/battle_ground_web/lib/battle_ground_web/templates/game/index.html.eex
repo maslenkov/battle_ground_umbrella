@@ -8,7 +8,7 @@ use arrows to move your hero and space to attack enemy
     </td></tr>
 </table>
 <script>
-    // setTimeout(function() {window.location.reload()}, 1000)
+    setTimeout(function() {window.location.reload()}, 1000);
     document.addEventListener('keydown', function(event) {
       if(["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Space"].includes(event.code)) {
           var url = "/game/key";
