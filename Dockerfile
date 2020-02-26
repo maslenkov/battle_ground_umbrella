@@ -13,11 +13,7 @@ RUN mix local.hex --force && \
 
 # set build ENV
 ENV MIX_ENV=prod
-ARG SECRET_KEY_BASE
-#ARG PORT
-#ARG HOST
-ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
-ENV HOST=localhost
+ENV SECRET_KEY_BASE="build time secret key"
 ENV PORT=4000
 
 # install mix dependencies
@@ -52,9 +48,6 @@ RUN mkdir /app
 WORKDIR /app
 
 EXPOSE 4000
-ENV MIX_ENV=prod
-ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
-ENV HOST=localhost
 
 COPY --from=build /app/_build/prod/rel/battle_ground ./
 RUN chown -R nobody: /app
