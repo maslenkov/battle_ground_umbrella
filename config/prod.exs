@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
@@ -11,8 +11,10 @@ use Mix.Config
 # before starting your production server.
 config :battle_ground_web, BattleGroundWeb.Endpoint,
   load_from_system_env: true,
+  server: true,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "elixir-cc-hero-v1.herokuapp.com", port: 443],
+#  url: [scheme: "http", host: "localhost", port: 4000],
+  url: [scheme: "https", host: {:system, "HOST"}, port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 #  cache_static_manifest: "priv/static/cache_manifest.json"
