@@ -12,7 +12,7 @@ secret_key_base =
     """
 
 config :battle_ground_web, BattleGroundWeb.Endpoint,
-  http: [:inet6, port: String.to_integer(System.fetch_env!("PORT") || "4000")],
+  http: [:inet6, port: String.to_integer(System.fetch_env!("PORT"))],
   secret_key_base: secret_key_base
 
 # ## Using releases (Elixir v1.9+)
