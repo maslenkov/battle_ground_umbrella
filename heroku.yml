@@ -5,4 +5,4 @@ build:
     MIX_ENV: prod
 #    SECRET_KEY_BASE: $SECRET_KEY_BASE
     HOST: elixir-cc-hero-v2.herokuapp.com
-    PORT: $PORT
+    PORT: 4000
