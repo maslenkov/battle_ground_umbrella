@@ -6,8 +6,14 @@ Very simple MMO game
 
 ### Local developemtn
 
+Run server with
 ```bash
 mix phx.server
+```
+
+Run test with
+```bash
+mix test
 ```
 
 ### Release
