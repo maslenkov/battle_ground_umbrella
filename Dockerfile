@@ -18,6 +18,7 @@ ARG SECRET_KEY_BASE
 #ARG HOST
 ENV SECRET_KEY_BASE=$SECRET_KEY_BASE
 ENV HOST=localhost
+ENV PORT=4000
 
 # install mix dependencies
 COPY mix.exs mix.lock ./
