@@ -14,8 +14,8 @@ defmodule BattleGround.Dude do
     {:reply, state, state}
   end
 
-  def handle_call({:set_coordinates, new_coordinates}, _from, {_old_coordinates, is_alive, name}) do
-    {:reply, :ok, {new_coordinates, is_alive, name}}
+  def handle_cast({:set_coordinates, new_coordinates}, {_old_coordinates, is_alive, name}) do
+    {:noreply, {new_coordinates, is_alive, name}}
   end
 
   def handle_call({:go, _offsets}, _from, {_coordinates, false, _name} = state), do: {:reply, :corpse, state}
@@ -54,7 +54,7 @@ defmodule BattleGround.Dude do
 
   # TODO: SPECS!!!!
   def handle_info(:respawn_self, {coordinates, false, name}) do
-    # set another coordinates
+    BattleGround.Board.spawn_hero(self())
     {:noreply, {coordinates, true, name}}
   end
 end

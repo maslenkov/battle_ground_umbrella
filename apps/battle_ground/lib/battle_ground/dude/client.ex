@@ -19,7 +19,7 @@ defmodule BattleGround.Dude.Client do
   end
 
   def set_coordinates(coordinates, dude_pid) do
-    GenServer.call(dude_pid, {:set_coordinates, coordinates})
+    GenServer.cast(dude_pid, {:set_coordinates, coordinates})
   end
 
   def go_left(dude_pid) do
