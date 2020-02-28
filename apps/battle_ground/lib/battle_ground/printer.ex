@@ -4,24 +4,24 @@ defmodule BattleGround.Board.Printer do
   @max_y 11
   @min_y 0
 
-  def print(separator \\ "\n") do
+  def print(name) do
     # from {11, 0} to {0, 11} (from right to left, from down to top)
-    print_line(@max_x, @min_y, [separator], separator)
+    print_line(@max_x, @min_y, ["\n"], name)
   end
 
-  defp print_line(x, y, memo, separator) when x >= @min_x do
-    print_line(x - 1, y, [print_tile(x, y)|memo], separator)
+  defp print_line(x, y, memo, name) when x >= @min_x do
+    print_line(x - 1, y, [print_tile(x, y, name)|memo], name)
   end
 
-  defp print_line(x, y, memo, separator) when x <= @min_x and y == @max_y do
-    [separator|memo]
+  defp print_line(x, y, memo, name) when x <= @min_x and y == @max_y do
+    ["\n"|memo]
   end
 
-  defp print_line(x, y, memo, separator) when x <= @min_x do
-    print_line(@max_x, y + 1, [separator|memo], separator)
+  defp print_line(x, y, memo, name) when x <= @min_x do
+    print_line(@max_x, y + 1, ["\n"|memo], name)
   end
 
-  defp print_tile(x, y) do
+  defp print_tile(x, y, current_name) do
     # where is tests!?!?!
     dude = Registry.lookup(BattleGround.Board.Registry, "board_subscribers")
            |> Enum.map(fn({_registry_pid, dude_pid}) ->
@@ -30,8 +30,21 @@ defmodule BattleGround.Board.Printer do
            |> Enum.find(fn({coordinates, _is_alive, _name}) ->
       coordinates == {x, y}
     end)
+    current_dude = Registry.lookup(BattleGround.Board.Registry, "board_subscribers")
+           |> Enum.map(fn({_registry_pid, dude_pid}) ->
+      BattleGround.Dude.Client.state(dude_pid)
+    end)
+           |> Enum.find(fn({_coordinates, _is_alive, name}) ->
+      name == current_name
+    end)
     # why without test first?
     if(dude) do
+      # WAT?
+      dude = if elem(dude, 0) == elem(current_dude, 0) do
+        current_dude
+      else
+        dude
+      end
       {_, is_alive, name} = dude
       if is_alive do
         name |> String.at(0)

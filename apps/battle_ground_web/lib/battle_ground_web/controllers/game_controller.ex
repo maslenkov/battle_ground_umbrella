@@ -13,7 +13,7 @@ defmodule BattleGroundWeb.GameController do
       BattleGround.Dude.Client.create(name)
       put_session(conn, :name, name)
     end
-    board = BattleGround.Board.Printer.print
+    board = BattleGround.Board.Printer.print(name)
     render(conn, "index.html", board: board)
   end
 
