@@ -9,9 +9,12 @@ defmodule BattleGroundWeb.Application do
     # List all child processes to be supervised
     children = [
       # Start the endpoint when the application starts
-      BattleGroundWeb.Endpoint
+      BattleGroundWeb.Endpoint,
       # Starts a worker by calling: BattleGroundWeb.Worker.start_link(arg)
       # {BattleGroundWeb.Worker, arg},
+
+      {Registry, keys: :unique, name: BattleGroundWeb.Session.Registry},
+#      BattleGroundWeb.Session.Client
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -13,6 +13,10 @@ defmodule BattleGround.Dude.Client do
     GenServer.call(BattleGround.Dude.Server, {:create, name})
   end
 
+  def delete(name) do
+    GenServer.call(BattleGround.Dude.Server, {:delete, name})
+  end
+
   # TODO: DONT USE PID, USE REGISTRY OR DYNAMIC SUPERVISOR!
   def state(pid) do
     GenServer.call(pid, :state)
