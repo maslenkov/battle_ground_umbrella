@@ -1,5 +1,11 @@
-Start game!
-use arrows to move your hero and space to attack enemy
+<h2>
+    Start game!
+</h2>
+<p>
+    Use arrows to move your hero; <br />
+    Space key to attack enemy; <br />
+    Esc to stop page reloading(stop game). To continue game - just reload page.
+</p>
 <table>
     <tr><td>
         <pre>
@@ -8,7 +14,7 @@ use arrows to move your hero and space to attack enemy
     </td></tr>
 </table>
 <script>
-    setTimeout(function() {window.location.reload()}, 1000);
+    timeout = setTimeout(function() {window.location.reload()}, 1000);
     document.addEventListener('keydown', function(event) {
       if(["ArrowUp", "ArrowRight", "ArrowDown", "ArrowLeft", "Space"].includes(event.code)) {
           var url = "/game/key";
@@ -18,6 +24,8 @@ use arrows to move your hero and space to attack enemy
           xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
           xhr.send(params);
+      } else if(event.code === "Escape") {
+        clearTimeout(timeout)
       }
     });
 </script>
