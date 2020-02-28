@@ -40,7 +40,7 @@ defmodule BattleGround.Board.Printer do
     # why without test first?
     if(dude) do
       # WAT?
-      dude = if elem(dude, 0) == elem(current_dude, 0) do
+      dude = if current_dude && elem(dude, 0) == elem(current_dude, 0) do
         current_dude
       else
         dude

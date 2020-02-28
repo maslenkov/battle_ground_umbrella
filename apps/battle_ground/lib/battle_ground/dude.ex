@@ -54,7 +54,12 @@ defmodule BattleGround.Dude do
 
   # TODO: SPECS!!!!
   def handle_info(:respawn_self, {coordinates, false, name}) do
-    BattleGround.Board.spawn_hero(self())
+    last_seen = BattleGround.Dude.LifeCycle.when_last_seen(name)
+    if Time.diff(Time.utc_now(), last_seen) > 4 do
+      BattleGround.Dude.Client.delete(name)
+    else
+      BattleGround.Board.spawn_hero(self())
+    end
     {:noreply, {coordinates, true, name}}
   end
 end

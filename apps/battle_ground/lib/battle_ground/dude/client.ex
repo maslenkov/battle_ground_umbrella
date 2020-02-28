@@ -14,7 +14,7 @@ defmodule BattleGround.Dude.Client do
   end
 
   def delete(name) do
-    GenServer.call(BattleGround.Dude.Server, {:delete, name})
+    GenServer.cast(BattleGround.Dude.Server, {:delete, name})
   end
 
   # TODO: DONT USE PID, USE REGISTRY OR DYNAMIC SUPERVISOR!

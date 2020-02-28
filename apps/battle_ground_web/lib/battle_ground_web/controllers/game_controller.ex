@@ -2,17 +2,15 @@ defmodule BattleGroundWeb.GameController do
   use BattleGroundWeb, :controller
 
   def index(conn, params) do
-    name = get_session(conn, :name)
-    conn = if name do
-      case Registry.lookup(BattleGround.Dude.Registry, name) do
-        [{_dude_pid, nil}] -> conn
-        [] -> BattleGround.Dude.Client.create(name); conn
-      end
-    else
-      name = params[:name] || random_name()
+    name = params["name"] || get_session(conn, :name) || random_name()
+
+    unless BattleGround.Dude.RegistryClient.get_pid(name) do
       BattleGround.Dude.Client.create(name)
-      put_session(conn, :name, name)
     end
+
+    conn = put_session(conn, :name, name)
+    BattleGround.Dude.LifeCycle.update_last_seen(name)
+
     board = BattleGround.Board.Printer.print(name)
     render(conn, "index.html", board: board)
   end

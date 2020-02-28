@@ -13,6 +13,8 @@ defmodule BattleGround.Application do
       BattleGround.Dude.Client,
 
       {Registry, keys: :duplicate, name: BattleGround.Board.Registry},
+
+      BattleGround.Dude.LifeCycle
     ]
 
     Supervisor.start_link(children, strategy: :one_for_one, name: BattleGround.Supervisor)

@@ -16,12 +16,12 @@ defmodule BattleGround.Dude.Server do
     # 2. If we bring Dude's functions then I'm uncomfortable that this :create do three steps
     # 3. May be I can just break down spawn_hero into init_coordinates and set_coordinates
     # 4. MAYBE BEST: I can receive name and init_coordinates! ^^
-    BattleGround.Board.spawn_hero(dude_pid) # set coordinates (NOT TESTED)
+    dude_pid |> BattleGround.Board.spawn_hero # set coordinates (NOT TESTED)
     Registry.register(BattleGround.Board.Registry, "board_subscribers", dude_pid) # use custom registry client: BattleGround.Board.Subscribers.add(dude_pid)
     {:reply, dude_pid, state}
   end
 
-  def handle_call({:delete, name}, _from, state) do
+  def handle_cast({:delete, name}, state) do
     # find dude
     [{dude_pid, _}] = Registry.lookup(BattleGround.Dude.Registry, name)
     # unregister from attack
@@ -30,6 +30,6 @@ defmodule BattleGround.Dude.Server do
     DynamicSupervisor.terminate_child(BattleGround.Dude.Supervisor, dude_pid)
     # remove name from registry name
     Registry.unregister(BattleGround.Dude.Registry, name)
-    {:reply, :ok, state}
+    {:noreply, state}
   end
 end
