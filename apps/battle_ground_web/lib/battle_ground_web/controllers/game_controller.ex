@@ -11,15 +11,22 @@ defmodule BattleGroundWeb.GameController do
     conn = put_session(conn, :name, name)
     BattleGround.Dude.LifeCycle.update_last_seen(name)
 
-    board = BattleGround.Board.Printer.print(name)
+    all_dudes = Registry.lookup(BattleGround.Board.Registry, "board_subscribers")
+                |> Enum.map(fn({_registry_pid, dude_pid}) ->
+                  BattleGround.Dude.Client.state(dude_pid)
+                end)
+    hero = name
+           |> BattleGround.Dude.RegistryClient.get_pid
+           |> BattleGround.Dude.Client.state
+    board = BattleGround.Board.Printer.prepare_board(BattleGround.Board.board, all_dudes, hero)
+            |> BattleGround.Board.Printer.print
     render(conn, "index.html", board: board)
   end
 
   def key(conn, params) do
     key = params["key"]
     name = get_session(conn, :name)
-#    hide Registry lookup under dude client!!!
-    [{dude_pid, nil}] = Registry.lookup(BattleGround.Dude.Registry, name)
+    dude_pid = BattleGround.Dude.RegistryClient.get_pid(name)
     case key do
       "ArrowUp" -> BattleGround.Dude.Client.go_up(dude_pid)
       "ArrowRight" -> BattleGround.Dude.Client.go_right(dude_pid)
@@ -28,9 +35,7 @@ defmodule BattleGroundWeb.GameController do
       "Space" -> BattleGround.Dude.Client.attack(dude_pid)
       other -> IO.inspect(other)
     end
-#    render(conn, "index.html", board: board)
     text conn, "OK"
-#    redirect(conn, to: "/game")
   end
 
   def random_name do

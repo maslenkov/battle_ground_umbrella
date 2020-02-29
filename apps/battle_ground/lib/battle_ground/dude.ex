@@ -58,7 +58,7 @@ defmodule BattleGround.Dude do
     if Time.diff(Time.utc_now(), last_seen) > 4 do
       BattleGround.Dude.Client.delete(name)
     else
-      BattleGround.Board.spawn_hero(self())
+      BattleGround.Board.set_coordinates(self())
     end
     {:noreply, {coordinates, true, name}}
   end

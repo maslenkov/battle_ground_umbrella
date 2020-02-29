@@ -16,13 +16,11 @@ defmodule BattleGround.Board do
     {0, 0} => 0, {1, 0} => 0, {2, 0} => 0, {3, 0} => 0, {4, 0} => 0, {5, 0} => 0, {6, 0} => 0, {7, 0} => 0, {8, 0} => 0, {9, 0} => 0, {10, 0} => 0, {11, 0} => 0
   }
 
-  # WARNING: what is the aim of this method?
   def board do
     @field
   end
 
-  # WARNING: spawn can introduce miss understanding :/
-  def spawn_hero(dude_pid) do
+  def set_coordinates(dude_pid) do
     BattleGround.Dude.Client.set_coordinates(init_coordinates(), dude_pid)
   end
 
@@ -39,7 +37,6 @@ defmodule BattleGround.Board do
   end
 
   def attack(coordinates, attack_from_pid) do
-    # IO.inspect(123)
     Registry.dispatch(BattleGround.Board.Registry, "board_subscribers", fn(entries) ->
       for {_registry_pid, subscriber_pid} <- entries do
         unless subscriber_pid == attack_from_pid do
