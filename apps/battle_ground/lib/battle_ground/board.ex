@@ -40,7 +40,7 @@ defmodule BattleGround.Board do
     Registry.dispatch(BattleGround.Board.Registry, "board_subscribers", fn(entries) ->
       for {_registry_pid, subscriber_pid} <- entries do
         unless subscriber_pid == attack_from_pid do
-          BattleGround.Dude.Client.attacked(coordinates, subscriber_pid)
+          BattleGround.Dude.Client.attacked(subscriber_pid, coordinates)
         end
       end
     end)

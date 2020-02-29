@@ -10,12 +10,12 @@ defmodule BattleGround.Dude do
     {:ok, {{0, 0}, true, name}}
   end
 
-  def handle_call(:state, _from, state) do
-    {:reply, state, state}
-  end
-
   def handle_cast({:set_coordinates, new_coordinates}, {_old_coordinates, is_alive, name}) do
     {:noreply, {new_coordinates, is_alive, name}}
+  end
+
+  def handle_call(:state, _from, state) do
+    {:reply, state, state}
   end
 
   def handle_call({:go, _offsets}, _from, {_coordinates, false, _name} = state), do: {:reply, :corpse, state}
@@ -30,9 +30,7 @@ defmodule BattleGround.Dude do
 
   def handle_call({:attacked, {attacked_x, attacked_y}}, _from, {{x, y}, true, name} = state) do
     offset_x = attacked_x - x
-    # IO.inspect(offset_x)
     offset_y = attacked_y - y
-    # IO.inspect(offset_y)
     state = if(offset_x <= 1 && offset_x >= -1 && offset_y <=1 && offset_y >= -1) do
       # should be in separate step
       Process.send_after(self(), :respawn_self, 5 * 1000)

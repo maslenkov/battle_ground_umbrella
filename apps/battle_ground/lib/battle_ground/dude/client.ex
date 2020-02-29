@@ -14,12 +14,12 @@ defmodule BattleGround.Dude.Client do
   end
 
   def delete(name) do
-    GenServer.cast(BattleGround.Dude.Server, {:delete, name})
+    GenServer.call(BattleGround.Dude.Server, {:delete, name})
   end
 
   # TODO: DONT USE PID, USE REGISTRY OR DYNAMIC SUPERVISOR!
-  def state(pid) do
-    GenServer.call(pid, :state)
+  def state(dude_pid) do
+    GenServer.call(dude_pid, :state)
   end
 
   def set_coordinates(coordinates, dude_pid) do
@@ -48,7 +48,7 @@ defmodule BattleGround.Dude.Client do
     GenServer.cast(dude_pid, :attack)
   end
 
-  def attacked(coordinates, dude_pid) do
+  def attacked(dude_pid, coordinates) do
     GenServer.call(dude_pid, {:attacked, coordinates})
   end
 end

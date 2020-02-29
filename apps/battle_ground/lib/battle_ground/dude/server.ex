@@ -21,13 +21,13 @@ defmodule BattleGround.Dude.Server do
     {:reply, dude_pid, state}
   end
 
-  def handle_cast({:delete, name}, state) do
+  def handle_call({:delete, name}, _from, state) do
     dude_pid = name |> BattleGround.Dude.RegistryClient.get_pid
     Registry.unregister_match(BattleGround.Board.Registry, "board_subscribers", dude_pid) # can be rewritten with Registry.Client.unreg
     # Delete Dude
     DynamicSupervisor.terminate_child(BattleGround.Dude.Supervisor, dude_pid)
     # remove name from registry name
     Registry.unregister(BattleGround.Dude.Registry, name)
-    {:noreply, state}
+    {:reply, :ok, state}
   end
 end
