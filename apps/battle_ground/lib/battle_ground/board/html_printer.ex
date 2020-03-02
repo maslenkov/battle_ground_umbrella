@@ -24,11 +24,11 @@ defmodule BattleGround.Board.HtmlPrinter do
   defp print_tile("\n"), do: "<br />"
   defp print_tile(board, coordinates) do
     case board[coordinates] do
-      0 -> "<span style='background: black; width: 40px; height: 40px; display: inline-block;'>&nbsp;</span>"
-      1 -> "<span style='background: white; width: 40px; height: 40px; display: inline-block;'>&nbsp;</span>"
-      "X" -> "<span style='background-color: white; width: 40px; display: inline-block; height: 40px;'>X</span>"
-      {color, name} -> "<span style='background-color: #{color}; width: 40px; display: inline-block; height: 40px;'>#{name}</span>"
-      other -> "<span style='background: white; width: 40px; height: 40px; display: inline-block;'>#{other}</span>"
+      0 -> "<span style='background-color: black;'>&nbsp;</span>"
+      1 -> "<span>&nbsp;</span>"
+      "X" -> "<span>X</span>"
+      {color, name} -> "<span style='background-color: #{color};'>#{name}</span>"
+      other -> "<span>#{other}</span>"
     end
   end
 end

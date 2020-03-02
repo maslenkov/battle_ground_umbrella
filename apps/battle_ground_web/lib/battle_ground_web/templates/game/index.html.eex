@@ -1,3 +1,10 @@
+<style>
+  .board span {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+  }
+</style>
 <h2>
     Start game!
 </h2>
@@ -7,7 +14,7 @@
     Esc to stop page reloading(stop game). To continue game - just reload page.
 </p>
 <table>
-    <div>
+    <div class='board'>
         <%= raw @board %>
     </div>
 </table>
