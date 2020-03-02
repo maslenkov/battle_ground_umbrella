@@ -1,9 +1,7 @@
 defmodule BattleGroundAdapter.Board do
   def draw_html(name) do
     BattleGround.Board.Printer.prepare_board(BattleGround.Board.board, all_dudes(), hero(name))
-    |> BattleGround.Board.Printer.print
-#    |> BattleGround.Board.TextPrinter.print
-#    |> BattleGround.Board.HTMLPrinter.print
+    |> BattleGround.Board.HtmlPrinter.print
   end
 
   defp all_dudes do

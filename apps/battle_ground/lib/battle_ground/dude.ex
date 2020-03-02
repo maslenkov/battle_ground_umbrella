@@ -1,4 +1,3 @@
-# join with Dude.Server
 defmodule BattleGround.Dude do
   use GenServer
 
