@@ -20,16 +20,11 @@ defmodule BattleGround.Board do
     @field
   end
 
-  def set_coordinates(dude_pid) do
-    BattleGround.Dude.Client.set_coordinates(init_coordinates(), dude_pid)
-  end
-
   def get_by_coordinates(coordinates) do
     @field[coordinates]
   end
 
   def check_coordinates(coordinates) do
-    # TODO: try to make guard instead of case
     case @field[coordinates] do
       0 -> :wall
       _ -> :walkable
@@ -46,8 +41,7 @@ defmodule BattleGround.Board do
     end)
   end
 
-  #  maybe tests? (NO TEST FOR PRIVATE FUNCTIONS!)
-  defp init_coordinates do
+  def init_coordinates do
     coordinates = {:rand.uniform(11), :rand.uniform(11)}
     case check_coordinates(coordinates) do
       :wall -> init_coordinates()

@@ -17,17 +17,15 @@ defmodule BattleGround.Dude.Client do
     GenServer.call(BattleGround.Dude.Server, {:delete, name})
   end
 
-  # TODO: DONT USE PID, USE REGISTRY OR DYNAMIC SUPERVISOR!
   def state(dude_pid) do
     GenServer.call(dude_pid, :state)
   end
 
-  def set_coordinates(coordinates, dude_pid) do
+  def set_coordinates(dude_pid, coordinates) do
     GenServer.cast(dude_pid, {:set_coordinates, coordinates})
   end
 
   def go_left(dude_pid) do
-    # TODO: move coordinates changing into server
     GenServer.call(dude_pid, {:go, {-1, 0}})
   end
 
@@ -44,7 +42,6 @@ defmodule BattleGround.Dude.Client do
   end
 
   def attack(dude_pid) do
-    # why call or cast? if I have no rely on answer on many other places? :/
     GenServer.cast(dude_pid, :attack)
   end
 

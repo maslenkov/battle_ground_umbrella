@@ -7,11 +7,9 @@
     Esc to stop page reloading(stop game). To continue game - just reload page.
 </p>
 <table>
-    <tr><td>
-        <div>
-            <%= raw @board %>
-        </div>
-    </td></tr>
+    <div>
+        <%= raw @board %>
+    </div>
 </table>
 <script>
     timeout = setTimeout(function() {window.location.reload()}, 1000);

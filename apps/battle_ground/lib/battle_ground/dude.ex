@@ -6,7 +6,6 @@ defmodule BattleGround.Dude do
   end
 
   def init(name) do
-    # make note that the problem is "respawn after fail", not {0, 0}
     {:ok, {{0, 0}, true, name}}
   end
 
@@ -32,7 +31,6 @@ defmodule BattleGround.Dude do
     offset_x = attacked_x - x
     offset_y = attacked_y - y
     state = if(offset_x <= 1 && offset_x >= -1 && offset_y <=1 && offset_y >= -1) do
-      # should be in separate step
       Process.send_after(self(), :respawn_self, 5 * 1000)
       {{x, y}, false, name}
     else
@@ -53,7 +51,7 @@ defmodule BattleGround.Dude do
     if BattleGroundAdapter.DudeLifeCycle.enabled? && BattleGroundAdapter.DudeLifeCycle.afk?(name) do
       BattleGround.Dude.Client.delete(name)
     else
-      BattleGround.Board.set_coordinates(self())
+      self() |> BattleGround.Dude.Client.set_coordinates(BattleGround.Board.init_coordinates)
     end
     {:noreply, {coordinates, true, name}}
   end
