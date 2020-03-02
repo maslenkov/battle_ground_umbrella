@@ -19,6 +19,7 @@ ENV PORT=4000
 # install mix dependencies
 COPY mix.exs mix.lock ./
 COPY apps/battle_ground/mix.exs ./apps/battle_ground/
+COPY apps/battle_ground_adapter/mix.exs ./apps/battle_ground_adapter/
 COPY apps/battle_ground_web/mix.exs ./apps/battle_ground_web/
 COPY config config
 RUN mix deps.get
@@ -30,6 +31,7 @@ RUN mix deps.compile
 
 # build project
 COPY apps/battle_ground/lib apps/battle_ground/lib
+COPY apps/battle_ground_adapter/lib apps/battle_ground_adapter/lib
 COPY apps/battle_ground_web/lib apps/battle_ground_web/lib
 RUN mix compile
 
