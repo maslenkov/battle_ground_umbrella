@@ -4,28 +4,17 @@ defmodule BattleGroundWeb.GameController do
   def index(conn, params) do
     name = params["name"] || get_session(conn, :name) || random_name()
 
-    unless BattleGround.Dude.RegistryClient.get_pid(name) do
-      BattleGround.Dude.Client.create(name)
-    end
+    BattleGroundAdapter.Hero.touch(name)
+    conn = conn |> put_session(:name, name)
+    board = name |> BattleGroundAdapter.Board.draw_html
 
-    conn = put_session(conn, :name, name)
-    BattleGround.Dude.LifeCycle.update_last_seen(name)
-
-    all_dudes = Registry.lookup(BattleGround.Board.Registry, "board_subscribers")
-                |> Enum.map(fn({_registry_pid, dude_pid}) ->
-                  BattleGround.Dude.Client.state(dude_pid)
-                end)
-    hero = name
-           |> BattleGround.Dude.RegistryClient.get_pid
-           |> BattleGround.Dude.Client.state
-    board = BattleGround.Board.Printer.prepare_board(BattleGround.Board.board, all_dudes, hero)
-            |> BattleGround.Board.Printer.print
     render(conn, "index.html", board: board)
   end
 
   def key(conn, params) do
     key = params["key"]
     name = get_session(conn, :name)
+# BattleGrounfAdapter.actuion()
     dude_pid = BattleGround.Dude.RegistryClient.get_pid(name)
     # TODO: change go_up into go(:up, name)
     case key do
@@ -36,6 +25,7 @@ defmodule BattleGroundWeb.GameController do
       "Space" -> BattleGround.Dude.Client.attack(dude_pid)
       _ -> :noop
     end
+# / BattleGrounfAdapter.actuion()
     text conn, "OK"
   end
 

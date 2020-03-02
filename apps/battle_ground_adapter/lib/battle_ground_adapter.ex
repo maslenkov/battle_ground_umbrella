@@ -1,0 +1,2 @@
+defmodule BattleGroundAdapter do
+end

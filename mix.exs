@@ -11,6 +11,7 @@ defmodule BattleGround.Umbrella.MixProject do
         battle_ground: [
           applications: [
             battle_ground: :permanent,
+            battle_ground_adapter: :permanent,
             battle_ground_web: :permanent
           ]
         ],

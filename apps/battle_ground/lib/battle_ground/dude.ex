@@ -40,7 +40,6 @@ defmodule BattleGround.Dude do
       state
     end
 
-    # TODO: maybe return not a state?
     {:reply, state, state}
   end
 
@@ -51,15 +50,12 @@ defmodule BattleGround.Dude do
     {:noreply, state}
   end
 
-  # TODO: SPECS!!!!
   def handle_info(:respawn_self, {coordinates, false, name}) do
-    last_seen = BattleGround.Dude.LifeCycle.when_last_seen(name)
-    if Time.diff(Time.utc_now(), last_seen) > 4 do
+    if BattleGroundAdapter.DudeLifeCycle.enabled? && BattleGroundAdapter.DudeLifeCycle.afk?(name) do
       BattleGround.Dude.Client.delete(name)
     else
       BattleGround.Board.set_coordinates(self())
     end
-    # mark as alive
     {:noreply, {coordinates, true, name}}
   end
 end

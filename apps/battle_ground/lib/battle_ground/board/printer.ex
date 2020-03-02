@@ -27,33 +27,47 @@ defmodule BattleGround.Board.Printer do
     board |> Map.put(hero_coordinates, dude_marker(hero, "green"))
   end
 
-  defp dude_marker({_, true, name}), do: "<span style='background-color: red; display: block; height: 40px;'>#{name}</span>"
-  defp dude_marker({_, false, _name}), do: "<span>X</span>"
-  defp dude_marker({_, false, _name}, _), do: "<span>X</span>"
-  defp dude_marker({_, true, name}, color), do: "<span style='background-color: #{color}; display: block; height: 40px;'>#{name}</span>"
+  defp dude_marker({_, true, name}), do: {"red", name}
+  defp dude_marker({_, false, _name}), do: "X"
+  defp dude_marker({_, false, _name}, _), do: "X"
+  defp dude_marker({_, true, name}, color), do: {color, name}
 
   def print(board) do
     # from {11, 0} to {0, 11} (from right to left, from down to top)
-    print_line(board, {@max_x, @min_y}, ["<br />"])
+    print_line(board, {@max_x, @min_y}, [print_tile("\n")])
   end
 
   defp print_line(board, {x, y}, memo) when x >= @min_x do
     print_line(board, {x - 1, y}, [print_tile(board, {x, y})|memo])
   end
 
-  defp print_line(board, {x, y}, memo) when x < @min_x and y == @max_y do
-    ["<br />"|memo]
+  defp print_line(_board, {x, y}, memo) when x < @min_x and y == @max_y do
+    [print_tile("\n")|memo]
   end
 
   defp print_line(board, {x, y}, memo) when x < @min_x do
-    print_line(board, {@max_x, y + 1}, ["<br />"|memo])
+    print_line(board, {@max_x, y + 1}, [print_tile("\n")|memo])
   end
 
+  defp print_tile("\n"), do: "<br />"
   defp print_tile(board, coordinates) do
     case board[coordinates] do
       0 -> "<span style='background: black; width: 40px; height: 40px; display: inline-block;'>&nbsp;</span>"
       1 -> "<span style='background: white; width: 40px; height: 40px; display: inline-block;'>&nbsp;</span>"
+      "X" -> "<span style='background-color: white; width: 40px; display: inline-block; height: 40px;'>X</span>"
+      {color, name} -> "<span style='background-color: #{color}; width: 40px; display: inline-block; height: 40px;'>#{name}</span>"
       other -> "<span style='background: white; width: 40px; height: 40px; display: inline-block;'>#{other}</span>"
     end
   end
+#  text
+#  defp print_tile("\n"), do: "\n"
+#  defp print_tile(board, coordinates) do
+#    case board[coordinates] do
+#      0 -> "0"
+#      1 -> "_"
+#      "X" -> "X"
+#      {_color, name} -> name |> String.at(0)
+#      other -> other
+#    end
+#  end
 end
