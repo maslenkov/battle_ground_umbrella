@@ -8,9 +8,9 @@
 </p>
 <table>
     <tr><td>
-        <pre>
+        <div>
             <%= raw @board %>
-        </pre>
+        </div>
     </td></tr>
 </table>
 <script>

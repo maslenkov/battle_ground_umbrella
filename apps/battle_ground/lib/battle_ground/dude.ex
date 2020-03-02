@@ -7,6 +7,7 @@ defmodule BattleGround.Dude do
   end
 
   def init(name) do
+    # make note that the problem is "respawn after fail", not {0, 0}
     {:ok, {{0, 0}, true, name}}
   end
 
@@ -58,6 +59,7 @@ defmodule BattleGround.Dude do
     else
       BattleGround.Board.set_coordinates(self())
     end
+    # mark as alive
     {:noreply, {coordinates, true, name}}
   end
 end

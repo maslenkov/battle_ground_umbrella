@@ -24,15 +24,17 @@ defmodule BattleGround.Board.Printer do
   end
 
   defp put_hero_to_board(board, {hero_coordinates, _is_alive, _name} = hero) do
-    board |> Map.put(hero_coordinates, dude_marker(hero))
+    board |> Map.put(hero_coordinates, dude_marker(hero, "green"))
   end
 
-  defp dude_marker({_, true, name}), do: name |> String.at(0)
-  defp dude_marker({_, false, _name}), do: "X"
+  defp dude_marker({_, true, name}), do: "<span style='background-color: red; display: block; height: 40px;'>#{name}</span>"
+  defp dude_marker({_, false, _name}), do: "<span>X</span>"
+  defp dude_marker({_, false, _name}, _), do: "<span>X</span>"
+  defp dude_marker({_, true, name}, color), do: "<span style='background-color: #{color}; display: block; height: 40px;'>#{name}</span>"
 
   def print(board) do
     # from {11, 0} to {0, 11} (from right to left, from down to top)
-    print_line(board, {@max_x, @min_y}, ["\n"])
+    print_line(board, {@max_x, @min_y}, ["<br />"])
   end
 
   defp print_line(board, {x, y}, memo) when x >= @min_x do
@@ -40,18 +42,18 @@ defmodule BattleGround.Board.Printer do
   end
 
   defp print_line(board, {x, y}, memo) when x < @min_x and y == @max_y do
-    ["\n"|memo]
+    ["<br />"|memo]
   end
 
   defp print_line(board, {x, y}, memo) when x < @min_x do
-    print_line(board, {@max_x, y + 1}, ["\n"|memo])
+    print_line(board, {@max_x, y + 1}, ["<br />"|memo])
   end
 
   defp print_tile(board, coordinates) do
     case board[coordinates] do
-      0 -> "0"
-      1 -> "_"
-      other -> other
+      0 -> "<span style='background: black; width: 40px; height: 40px; display: inline-block;'>&nbsp;</span>"
+      1 -> "<span style='background: white; width: 40px; height: 40px; display: inline-block;'>&nbsp;</span>"
+      other -> "<span style='background: white; width: 40px; height: 40px; display: inline-block;'>#{other}</span>"
     end
   end
 end

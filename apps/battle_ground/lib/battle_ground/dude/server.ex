@@ -16,7 +16,7 @@ defmodule BattleGround.Dude.Server do
     # 2. If we bring Dude's functions then I'm uncomfortable that this :create do three steps
     # 3. May be I can just break down spawn_hero into init_coordinates and set_coordinates
     # 4. MAYBE BEST: I can receive name and init_coordinates! ^^
-    dude_pid |> BattleGround.Board.set_coordinates
+    dude_pid |> BattleGround.Board.set_coordinates # set coordinates (NOT TESTED)
     Registry.register(BattleGround.Board.Registry, "board_subscribers", dude_pid) # use custom registry client: BattleGround.Board.Subscribers.add(dude_pid)
     {:reply, dude_pid, state}
   end

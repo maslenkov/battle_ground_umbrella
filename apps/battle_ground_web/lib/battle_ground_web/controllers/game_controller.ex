@@ -27,13 +27,14 @@ defmodule BattleGroundWeb.GameController do
     key = params["key"]
     name = get_session(conn, :name)
     dude_pid = BattleGround.Dude.RegistryClient.get_pid(name)
+    # TODO: change go_up into go(:up, name)
     case key do
       "ArrowUp" -> BattleGround.Dude.Client.go_up(dude_pid)
       "ArrowRight" -> BattleGround.Dude.Client.go_right(dude_pid)
       "ArrowDown" -> BattleGround.Dude.Client.go_down(dude_pid)
       "ArrowLeft" -> BattleGround.Dude.Client.go_left(dude_pid)
       "Space" -> BattleGround.Dude.Client.attack(dude_pid)
-      other -> IO.inspect(other)
+      _ -> :noop
     end
     text conn, "OK"
   end

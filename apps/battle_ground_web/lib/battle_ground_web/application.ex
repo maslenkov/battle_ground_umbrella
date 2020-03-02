@@ -13,8 +13,11 @@ defmodule BattleGroundWeb.Application do
       # Starts a worker by calling: BattleGroundWeb.Worker.start_link(arg)
       # {BattleGroundWeb.Worker, arg},
 
-      {Registry, keys: :unique, name: BattleGroundWeb.Session.Registry},
-#      BattleGroundWeb.Session.Client
+      %{
+        id: BattleGroundWeb.Session.Agent,
+        start: {Agent, :start_link, [fn -> %{} end, [name: BattleGroundWeb.Session.Agent]]}
+      }
+      # BattleGroundWeb.Session.Client
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
